@@ -1,4 +1,4 @@
-# snakegame
+
 # Snake Game!
 
 import pygame, sys, random, time
