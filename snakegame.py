@@ -1,7 +1,12 @@
 
-# Snake Game !
+# Snake Game!
 
-import pygame, sys, random, time
+import pygame
+import sys
+import random
+import time
+import shelve
+
 
 
 check_errors = pygame.init()
@@ -11,10 +16,14 @@ if check_errors[1] > 0:
 else:
     print("(+) PyGame successfully intialised")
 
-#Play Surface
+
+
+#Play Surface and sound
 
 playSurface = pygame.display.set_mode((720, 460))
-pygame.display.set_caption('This Fabians Snake Game!')
+pygame.display.set_caption('Snake Game!')
+eating_sound = pygame.mixer.Sound("pellet2.wav")
+
 #time.sleep(5)
 
 #colours rgb
@@ -22,7 +31,7 @@ red = pygame.Color(255, 0 ,0) #gameover
 green = pygame.Color(0, 255, 0) #snake
 black = pygame.Color(0, 0, 0)#score
 white = pygame.Color(255, 255, 255)#background
-brown = pygame.Color(165, 42, 42)#food
+brown = pygame.Color(139,69,19)#food
 
 #FPS controller
 
@@ -48,7 +57,7 @@ score = 0
 #Game over function
 def gameOver():
     myFont = pygame.font.SysFont('monaco',72)
-    GOsurf = myFont.render('Game Over!',True, red)
+    GOsurf = myFont.render('Game Over!',True, black)
     Gorect = GOsurf.get_rect()
     Gorect.midtop = (360, 15)
     playSurface.blit(GOsurf, Gorect)
@@ -64,6 +73,7 @@ def gameOver():
 def showscore(choice =1):
     sfont = pygame.font.SysFont('monaco', 24)
     ssurf = sfont.render('Score : {}'.format(score), True, black)
+
     Srect = ssurf.get_rect()
     if choice == 1:
         Srect.midtop = (80, 10)
@@ -115,17 +125,18 @@ while True:
     if snakePos[0] == foodPos[0] and snakePos[1] == foodPos[1]:
         score += 10
         foodSpawn = False
+        eating_sound.play()
     else:
         snakeBody.pop()
     if foodSpawn == False:
         foodPos = [random.randrange(1, 72) * 10, random.randrange(1, 46) * 10]
     foodSpawn = True
 
-    playSurface.fill(white)
+    playSurface.fill(brown)
     for pos in snakeBody:
         pygame.draw.rect(playSurface, green, (pos[0], pos[1], 10, 10), 0)
 
-    pygame.draw.rect(playSurface, brown, (foodPos[0], foodPos[1], 10, 10), 0)
+    pygame.draw.rect(playSurface, red, (foodPos[0], foodPos[1], 10, 10), 0)
 
     if snakePos[0] > 710 or snakePos[0] < 0:
         gameOver()
@@ -136,7 +147,11 @@ while True:
             gameOver()
 
     showscore()
+
+    gamescore = open('score.txt', 'w')
+    gamescore.write('Score : {}'.format(score))
+    gamescore.close()
+
     pygame.display.update()
     fpscontroller.tick(15)
 #gameOver()
-
