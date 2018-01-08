@@ -1,11 +1,7 @@
-
-# Snake Game!
-
 import pygame
 import sys
 import random
 import time
-
 
 
 check_errors = pygame.init()
@@ -15,9 +11,14 @@ if check_errors[1] > 0:
 else:
     print("(+) PyGame successfully intialised")
 
+check_errors = pygame.init()
+if check_errors[1] > 0:
+    print('(!) Had {0} intialising erros,existing...'.format(check_errors[1]))
+    sys.exit(-1)
+else:
+    print("(+) PyGame successfully intialised")
 
-
-#Play Surface and sound
+#surface
 
 playSurface = pygame.display.set_mode((720, 460))
 pygame.display.set_caption('Snake Game!')
