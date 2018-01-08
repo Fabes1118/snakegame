@@ -126,6 +126,7 @@ while True:
         score += 10
         foodSpawn = False
         eating_sound.play()
+        fpscontroller.tick()+1
     else:
         snakeBody.pop()
     if foodSpawn == False:
