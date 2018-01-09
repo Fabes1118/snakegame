@@ -3,6 +3,7 @@ import sys
 import random
 import time
 
+#the game
 
 check_errors = pygame.init()
 if check_errors[1] > 0:
